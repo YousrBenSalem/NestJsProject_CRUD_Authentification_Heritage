@@ -171,8 +171,14 @@ export class EntrepriseController {
 
   ) {
     try {
-      updateEntrepriseDto.logo = file ? file.filename : null ;
-
+      //updateEntrepriseDto.logo = file ? file.filename : null ;
+      //const existingLogo=updateEntrepriseDto.logo || []
+      const newLogo=file? file.filename :null
+      if(!newLogo){
+        updateEntrepriseDto.logo=updateEntrepriseDto.logo
+      }else{
+        updateEntrepriseDto.logo=newLogo
+      }
       const existingEntreprise = await this.entrepriseService.UpdateEntreprise(
         clientId,
         updateEntrepriseDto,

@@ -75,19 +75,23 @@ export class PublicationService {
     return existingPublication;
   }
 
+ 
   async deletePublication(publicationId: string): Promise<IPublication> {
     const deletedPublication =
       await this.publicationModel.findByIdAndDelete(publicationId);
     if (!deletedPublication) {
       throw new NotFoundException(`Publication #${publicationId} not found`);
     }
-    const updatedEntrprise = await this.entrepriseModel.findById(deletedPublication.entreprise);
-    if(updatedEntrprise){
-  updatedEntrprise.publication = updatedEntrprise.publication.filter(pubId => pubId.toString()!== publicationId);
-    await updatedEntrprise.save();
-    }else{
-    throw new NotFoundException(`publication #${publicationId} not found in the entreprise`);
-}
+    //
+    const entreprise = await this.entrepriseModel.findById(deletedPublication.entreprise)
+    if (entreprise) {
+            entreprise.publication=entreprise.publication.filter(pubId=>!pubId.equals(publicationId))
+
+      //entreprise.publication = entreprise.publication.filter(pubId => pubId.toString() !== publicationId)
+      await entreprise.save()
+      console.log("update entreprise", entreprise)
+      
+    } else (console.log('entreprise not found'))
     return deletedPublication;
   }
 }

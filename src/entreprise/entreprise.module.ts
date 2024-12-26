@@ -6,6 +6,7 @@ import { EntrepriseController } from "./entreprise.controller";
 import { MongooseModule } from "@nestjs/mongoose";
 import { UserSchema } from "src/user/entities/user.entity";
 import { MulterModule } from "@nestjs/platform-express";
+import { PublicationSchema } from "src/publication/entities/publication.entity";
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MulterModule } from "@nestjs/platform-express";
         name: "user",
         schema: UserSchema,
       },
+      {name:'publication',schema:PublicationSchema}
     ]),
   ],
   controllers: [EntrepriseController],

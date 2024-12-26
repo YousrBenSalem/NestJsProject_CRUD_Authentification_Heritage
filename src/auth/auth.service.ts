@@ -18,6 +18,7 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private mailerService : MailerService ,
+    
   ) {}
   
 	async signIn(data: AuthDto) {
@@ -29,8 +30,10 @@ export class AuthService {
       throw new BadRequestException('Password is incorrect');
     const tokens = await this.getTokens(user._id.toString(), user.username);
     await this.updateRefreshToken(user._id.toString(), tokens.refreshToken);
-  return tokens;
+  return {tokens,user};
   }
+
+
   	async logout(userId: string) {
     return this.usersService.update(userId, { refreshToken: null });
   }
@@ -132,7 +135,7 @@ export class AuthService {
         template: './forgot-password', 
         context: {  
         token : token      },  
-        html : `<h1> Update u password </h1> <a href=http://localhost:3000/${token}>Click here</a>`
+        html : `<h1> Update u password </h1> <a href=http://localhost:3001/reset/${token}>Click here</a>`
        }
            await this.mailerService.sendMail(option)
 

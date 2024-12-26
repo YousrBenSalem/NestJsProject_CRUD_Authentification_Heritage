@@ -24,7 +24,7 @@ export class Entreprise extends User {
 
   item: string;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'publication' }] })
+  @Prop( [{ type: mongoose.Schema.Types.ObjectId, ref: 'publication' }] )
   publication : Types.ObjectId []
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }] })
   clientId : Types.ObjectId []
